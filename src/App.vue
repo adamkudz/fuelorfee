@@ -22,11 +22,23 @@ export default {
 };
 </script>
 <style style="scss">
+:root {
+  --font-color: rgb(224, 224, 224);
+  --dark-background: rgb(6, 14, 8);
+  --outline: rgba(9, 104, 14, 0.767);
+}
+h1,
+h2,
+p,
+span {
+  color: var(--font-color);
+}
 input {
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
   border-bottom-style: hidden;
+  color: var(--font-color);
 }
 input:focus {
   outline: none;
