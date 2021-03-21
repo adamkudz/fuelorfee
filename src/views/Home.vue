@@ -76,7 +76,7 @@
     </div>
     <div v-if="showCalculate" class="BUTTONCONTAINER">
       <div class="buttonBox d-flex justify-center mt-5">
-        <v-btn @click="calculateResult">Calculate</v-btn>
+        <v-btn class="buttonStyle" @click="calculateResult">Calculate</v-btn>
       </div>
     </div>
     <div v-if="showResults" class="RESULTSCONTAINER text-center pa-2 ">
@@ -229,7 +229,8 @@ input {
 .dollarSign {
   font-size: 2em;
 }
-.v-btn {
+.theme--light .v-btn.v-btn--has-bg {
   color: var(--font-color);
+  background-color: var(--green);
 }
 </style>
