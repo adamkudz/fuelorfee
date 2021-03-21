@@ -15,7 +15,10 @@
     >
       FEE!
     </h1>
-    <div class="INPUTCONTAINER ma-2">
+    <div
+      class="INPUTCONTAINER ma-2"
+      :class="{ redBorder: payFee, greenborder: '' }"
+    >
       <div class="verticalInput text-center pa-1">
         <h2 class="">FBO Fee</h2>
         <div>
@@ -143,7 +146,6 @@ export default {
     showCalculate: true,
     showResults: false,
     isDisabled: false,
-    bgColor: "red",
   }),
   methods: {
     calculateResult: function() {
@@ -191,6 +193,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$refs.fboFee.focus();
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -201,8 +206,17 @@ export default {
   background: var(--dark-background);
 }
 .INPUTCONTAINER {
-  border: var(--green) 2px solid;
   border-radius: 10px;
+  max-width: 600px;
+  min-width: 350px;
+  justify-self: center;
+  border: 2px solid var(--green);
+}
+.redBorder {
+  border: 2px solid var(--red);
+}
+.greenBorder {
+  border: 2px solid var(--green);
 }
 .inputBox {
   display: flex;
@@ -229,8 +243,8 @@ input {
 .dollarSign {
   font-size: 2em;
 }
-.theme--light .v-btn.v-btn--has-bg {
-  color: var(--font-color);
-  background-color: var(--green);
-}
+// .theme--light.v-btn.v-btn--has-bg {
+//   color: var(--font-color);
+//   background-color: var(--green);
+// }
 </style>
