@@ -25,7 +25,8 @@ export default {
 :root {
   --font-color: rgb(224, 224, 224);
   --dark-background: rgb(6, 14, 8);
-  --outline: rgba(9, 104, 14, 0.767);
+  --green: rgba(9, 104, 14, 0.767);
+  --red: rgba(104, 15, 9, 0.767);
 }
 h1,
 h2,

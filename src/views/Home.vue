@@ -1,23 +1,39 @@
 <template>
   <div class="HOMECONTAINER">
-    <h1 class="text-center mt-3">Fuel or Fee?</h1>
+    <h1 v-if="!showResults" class="text-center mt-2">Fuel or Fee?</h1>
+    <h1
+      v-if="showResults && getFuel"
+      class="text-center mt-2 mx-2"
+      style="background:var(--green);"
+    >
+      FUEL!
+    </h1>
+    <h1
+      v-if="showResults && payFee"
+      class="text-center mt-2 mx-2"
+      style="background:var(--red);"
+    >
+      FEE!
+    </h1>
     <div class="INPUTCONTAINER ma-2">
       <div class="verticalInput text-center pa-1">
-        <h2 class="pt-2">FBO Fee</h2>
+        <h2 class="">FBO Fee</h2>
         <div>
           <span class="dollarSign">$</span>
           <input
+            ref="fboFee"
             autofocus
             step="any"
             v-model.number="fboFee"
             type="number"
             inputmode="numeric"
+            :disabled="isDisabled"
           />
         </div>
       </div>
       <div class="FUELCONTAINER pa-1">
         <div class="verticalInput pa-1">
-          <h2 class="pt-2">Fuel Required</h2>
+          <h2 class="pt-2">Fuel Req</h2>
           <div>
             <input
               class="text-right"
@@ -25,10 +41,11 @@
               v-model.number="fboGallons"
               type="number"
               inputmode="numeric"
-            /><span> gallons</span>
+              :disabled="isDisabled"
+            /><span> gal</span>
           </div>
         </div>
-        <div class="verticalInput pa-1">
+        <div class="verticalInput ">
           <h2 class="pt-2 text-center">Fuel Price</h2>
           <div>
             <span class="dollarSign">$</span>
@@ -38,11 +55,12 @@
               v-model.number="fboFuel"
               type="number"
               inputmode="numeric"
-            /><span> per gallon</span>
+              :disabled="isDisabled"
+            /><span> per gal</span>
           </div>
         </div>
       </div>
-      <div class="verticalInput text-center pa-1">
+      <div class="verticalInput text-center">
         <h2 class="pt-2">Home Fuel Price</h2>
         <div>
           <span class="dollarSign">$</span>
@@ -51,7 +69,8 @@
             v-model.number="homeFuel"
             type="number"
             inputmode="numeric"
-          /><span> per gallon</span>
+            :disabled="isDisabled"
+          /><span> per gal</span>
         </div>
       </div>
     </div>
@@ -60,8 +79,8 @@
         <v-btn @click="calculateResult">Calculate</v-btn>
       </div>
     </div>
-    <div v-if="showResults" class="RESULTSCONTAINER text-center pa-1">
-      <div v-show="getFuel">
+    <div v-if="showResults" class="RESULTSCONTAINER text-center pa-2 ">
+      <div v-show="getFuel" style="backgroundColor: var(--green);">
         <h2 class="mb-3">Get Fuel</h2>
         <p class="mb-1">
           Cost of getting fuel is <strong>${{ this.fboTotal }}</strong>
@@ -74,13 +93,21 @@
           Buy fuel here and save
           <strong>${{ this.feeSavings }}</strong>
         </p>
+        <div class="BUTTONCONTAINER">
+          <div
+            v-if="showReset"
+            class="buttonBox d-flex justify-center mt-5 mb-3"
+          >
+            <v-btn @click="reset">RESET</v-btn>
+          </div>
+        </div>
       </div>
-      <div v-show="payFee">
+      <div v-show="payFee" style="backgroundColor: var(--red) ;">
         <h2 class="mb-3">Pay the Fee</h2>
-        <p>
+        <p class="mb-1">
           Cost of getting fuel here is <strong>${{ this.fboTotal }}</strong>
         </p>
-        <p>
+        <p class="mb-1">
           Cost of paying the Fee <strong>(${{ this.fboFee }})</strong> plus
           {{ this.fboGallons }} gallons at home is
           <strong> ${{ this.homeTotal }}</strong>
@@ -89,11 +116,11 @@
           Pay the fee and save
           <strong>${{ this.feeSavings }}</strong>
         </p>
-      </div>
-    </div>
-    <div class="BUTTONCONTAINER">
-      <div v-if="showReset" class="buttonBox d-flex justify-center">
-        <v-btn @click="reset">RESET</v-btn>
+        <div class="BUTTONCONTAINER">
+          <div v-if="showReset" class="buttonBox d-flex justify-center">
+            <v-btn @click="reset">RESET</v-btn>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -115,6 +142,8 @@ export default {
     showReset: false,
     showCalculate: true,
     showResults: false,
+    isDisabled: false,
+    bgColor: "red",
   }),
   methods: {
     calculateResult: function() {
@@ -123,11 +152,14 @@ export default {
       this.showReset = true;
       this.showCalculate = false;
       this.showResults = true;
+      this.isDisabled = true;
 
       if (this.homeTotal < this.fboTotal) {
         this.payFee = true;
+        this.bgColor = "crimson";
       } else {
         this.getFuel = true;
+        this.bgColor = "";
       }
     },
     reset: function() {
@@ -140,6 +172,8 @@ export default {
       this.showReset = false;
       this.showCalculate = true;
       this.showResults = false;
+      this.isDisabled = false;
+      this.$refs.fboFee.focus();
     },
   },
   computed: {
@@ -163,11 +197,11 @@ export default {
 .HOMECONTAINER {
   display: grid;
   height: 100vh;
-  grid-template-rows: 10vh min-content 10vh 1fr 10vh;
+  grid-template-rows: min-content min-content 7vh 1fr 10vh;
   background: var(--dark-background);
 }
 .INPUTCONTAINER {
-  border: var(--outline) 2px solid;
+  border: var(--green) 2px solid;
   border-radius: 10px;
 }
 .inputBox {
@@ -187,10 +221,9 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   grid-row: 4;
-  background: crimson;
 }
 input {
-  font-size: 2em;
+  font-size: 1.7em;
   max-width: 2em;
 }
 .dollarSign {
