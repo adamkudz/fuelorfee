@@ -28,8 +28,7 @@
             autofocus
             step="any"
             v-model.number="fboFee"
-            type="number"
-            inputmode="numeric"
+            inputmode="decimal"
             :disabled="isDisabled"
           />
         </div>
@@ -43,7 +42,7 @@
               step="any"
               v-model.number="fboGallons"
               type="number"
-              inputmode="numeric"
+              inputmode="decimal"
               :disabled="isDisabled"
             /><span> gal</span>
           </div>
@@ -57,7 +56,7 @@
               step="any"
               v-model.number="fboFuel"
               type="number"
-              inputmode="numeric"
+              inputmode="decimal"
               :disabled="isDisabled"
             /><span> per gal</span>
           </div>
@@ -71,7 +70,7 @@
             step="any"
             v-model.number="homeFuel"
             type="number"
-            inputmode="numeric"
+            inputmode="decimal"
             :disabled="isDisabled"
           /><span> per gal</span>
         </div>
@@ -207,8 +206,7 @@ export default {
 }
 .INPUTCONTAINER {
   border-radius: 10px;
-  max-width: 600px;
-  min-width: 350px;
+  width: 95vw;
   justify-self: center;
   border: 2px solid var(--green);
 }
